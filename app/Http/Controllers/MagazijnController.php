@@ -53,5 +53,26 @@ class MagazijnController extends Controller
         $geenVoorraad = is_null($magazijnInfo->AantalAanwezig) || $magazijnInfo->AantalAanwezig == 0;
 
         return view('magazijn.levering', compact('product', 'leveringsInfo', 'geenVoorraad'));
+
+        
+    }
+    // Scenario 01 & 02 van User Story 02: Allergeneninformatie
+    public function allergenen($id)
+    {
+        // Haal product op
+        $product = DB::table('Product')->where('Id', $id)->first();
+
+        // Haal allergenen op gesorteerd op Allergeen.Naam (oplopend)
+        $allergenen = DB::table('ProductPerAllergeen')
+            ->join('Allergeen', 'ProductPerAllergeen.AllergeenId', '=', 'Allergeen.Id')
+            ->where('ProductPerAllergeen.ProductId', $id)
+            ->select('Allergeen.Naam', 'Allergeen.Omschrijving')
+            ->orderBy('Allergeen.Naam', 'asc')
+            ->get();
+
+        // Check of er allergenen zijn
+        $geenAllergenen = $allergenen->isEmpty();
+
+        return view('magazijn.allergenen', compact('product', 'allergenen', 'geenAllergenen'));
     }
 }

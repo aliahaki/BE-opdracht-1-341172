@@ -15,6 +15,7 @@
                             <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Naam</th>
                             <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Verpakkingseenheid (kg)</th>
                             <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Aantal Aanwezig</th>
+                            <th class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase">Allergenen Info</th>
                             <th class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase">Leverantie Info</th>
                         </tr>
                     </thead>
@@ -25,6 +26,11 @@
                                 <td class="px-6 py-4 whitespace-nowrap">{{ $product->Naam }}</td>
                                 <td class="px-6 py-4 whitespace-nowrap">{{ $product->VerpakkingsEenheid }}</td>
                                 <td class="px-6 py-4 whitespace-nowrap">{{ $product->AantalAanwezig ?? '0' }}</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-center">
+                                    <a href="{{ route('magazijn.allergenen', $product->ProductId) }}" class="text-red-600 font-bold text-lg" title="Bekijk allergenen info">
+                                        ❌
+                                    </a>
+                                </td>
                                 <td class="px-6 py-4 whitespace-nowrap text-center">
                                     <a href="{{ route('magazijn.levering', $product->ProductId) }}" class="text-blue-600 font-bold text-lg" title="Bekijk leverantie info">
                                         ❓
