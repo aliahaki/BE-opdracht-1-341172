@@ -7,3 +7,6 @@ use App\Http\Controllers\KlantController;
 use App\Http\Controllers\MagazijnmedewerkerController;
 use App\Http\Controllers\MagazijnController;
 
+Route::get('/', function () {
+    return view('welcome');
+});
