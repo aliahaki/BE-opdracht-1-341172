@@ -15,3 +15,7 @@ Route::get('/', function () {
 Route::get('/magazijn', [MagazijnController::class, 'index'])->name('magazijn.index');
 Route::get('/magazijn/levering/{id}', [MagazijnController::class, 'levering'])->name('magazijn.levering');   
 Route::get('/magazijn/allergenen/{id}', [MagazijnController::class, 'allergenen'])->name('magazijn.allergenen');
+
+Route::get('/admin', [AdminController::class, 'index'])
+    ->name('admin.index')
+    ->middleware(['auth', 'role:admin']);
