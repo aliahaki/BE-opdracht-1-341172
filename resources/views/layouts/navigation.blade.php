@@ -29,3 +29,12 @@
                             {{ __('Admin Home') }}
                         </x-nav-link>
                     @endif
+
+                    <!-- Magazijn Home link (Alleen voor Magazijnmedewerker) -->
+                    @if(auth()->check() && strtolower(auth()->user()->rolename ?? '') === 'magazijnmedewerker')
+                        <x-nav-link :href="route('magazijnmedewerker.index')" :active="request()->routeIs('magazijnmedewerker.index')">
+                            {{ __('Magazijn Home') }}
+                        </x-nav-link>
+                    @endif
+                </div>
+            </div>
