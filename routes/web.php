@@ -19,3 +19,8 @@ Route::get('/magazijn/allergenen/{id}', [MagazijnController::class, 'allergenen'
 Route::get('/admin', [AdminController::class, 'index'])
     ->name('admin.index')
     ->middleware(['auth', 'role:admin']);
+
+// Zowel klant als admin krijgen toegang tot de klant homepage:
+Route::get('/klant', [KlantController::class, 'index'])
+    ->name('klant.index')
+    ->middleware(['auth', 'role:klant,admin']);     
