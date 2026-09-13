@@ -22,3 +22,10 @@
                             {{ __('Klant Home') }}
                         </x-nav-link>
                     @endif
+
+                    <!-- Admin Home link (Alleen voor Admin) -->
+                    @if(auth()->check() && strtolower(auth()->user()->rolename ?? '') === 'admin')
+                        <x-nav-link :href="route('admin.index')" :active="request()->routeIs('admin.index')">
+                            {{ __('Admin Home') }}
+                        </x-nav-link>
+                    @endif
