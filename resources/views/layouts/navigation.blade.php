@@ -15,3 +15,10 @@
                     <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                         {{ __('Dashboard') }}
                     </x-nav-link>
+
+                    <!-- Klant Home link (Zichtbaar voor Klant en Admin) -->
+                    @if(auth()->check() && in_array(strtolower(auth()->user()->rolename ?? ''), ['klant', 'admin']))
+                        <x-nav-link :href="route('klant.index')" :active="request()->routeIs('klant.index')">
+                            {{ __('Klant Home') }}
+                        </x-nav-link>
+                    @endif
