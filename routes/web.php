@@ -27,4 +27,8 @@ Route::get('/klant', [KlantController::class, 'index'])
     
 Route::get('/magazijnmedewerker', [MagazijnmedewerkerController::class, 'index'])
     ->name('magazijnmedewerker.index')
-    ->middleware(['auth', 'role:magazijnmedewerker']);    
+    ->middleware(['auth', 'role:magazijnmedewerker']);
+
+Route::get('/dashboard', function () {
+    return view('dashboard');
+})->middleware(['auth', 'verified'])->name('dashboard');    
