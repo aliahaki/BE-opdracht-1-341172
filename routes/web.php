@@ -11,6 +11,11 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+// Publiek toegankelijke magazijn routes (geen login nodig voor docent / testen)
+Route::get('/magazijn', [MagazijnController::class, 'index'])->name('magazijn.index');
+Route::get('/magazijn/levering/{id}', [MagazijnController::class, 'levering'])->name('magazijn.levering');   
+Route::get('/magazijn/allergenen/{id}', [MagazijnController::class, 'allergenen'])->name('magazijn.allergenen');
+
 Route::get('/admin', [AdminController::class, 'index'])
     ->name('admin.index')
     ->middleware(['auth', 'role:admin']);
@@ -32,11 +37,6 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-
-Route::get('/magazijn', [MagazijnController::class, 'index'])->name('magazijn.index');
-Route::get('/magazijn/levering/{id}', [MagazijnController::class, 'levering'])->name('magazijn.levering');   
-
-Route::get('/magazijn/allergenen/{id}', [MagazijnController::class, 'allergenen'])->name('magazijn.allergenen');
 });
 
 require __DIR__.'/auth.php';
