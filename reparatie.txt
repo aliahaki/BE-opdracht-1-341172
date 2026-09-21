@@ -1,0 +1,17 @@
+Get-ChildItem -Path "C:\wamp64\bin\php\php8.4.25" -Recurse | Unblock-File
+
+Optie A: Een regel toevoegen in Lokale Beveiligingsinstellingen
+
+Druk op Windows + R, typ secpol.msc en druk op Enter.
+
+Navigeer in de linkerkolom naar:
+Beveiligingsinstellingen > Beleid voor toepassingsbeheer > AppLocker.
+
+Klik met de rechtermuisknop op Executable Rules (of DLL Rules als het om DLL-bestanden gaat) en kies Create New Rule....
+
+Kies Allow (Toestaan), kies als regeltype Path (Pad), en selecteer de map die je wilt deblokkeren (bijv. C:\wamp64\bin\php\php8.4.25\*).
+
+Open PowerShell als Administrator en voer uit:
+
+PowerShell
+gpupdate /force
