@@ -33,7 +33,19 @@ class MagazijnController extends Controller
         // Check aantal aanwezig in magazijn
         $magazijnInfo = DB::table('Magazijn')->where('ProductId', $id)->first();
 
-        // Haal de leverancier- en leveringsgegevens op gesorteerd op DatumLevering (oplopend)
+        // Haal de leverancier op die aan het product gekoppeld is
+        $leverancier = DB::table('ProductPerLeverancier')
+            ->join('Leverancier', 'ProductPerLeverancier.LeverancierId', '=', 'Leverancier.Id')
+            ->where('ProductPerLeverancier.ProductId', $id)
+            ->select(
+                'Leverancier.Naam',
+                'Leverancier.ContactPersoon',
+                'Leverancier.LeverancierNummer',
+                'Leverancier.Mobiel'
+            )
+            ->first();
+
+        // Haal de leveringsgegevens op gesorteerd op DatumLevering (oplopend)
         $leveringsInfo = DB::table('ProductPerLeverancier')
             ->join('Leverancier', 'ProductPerLeverancier.LeverancierId', '=', 'Leverancier.Id')
             ->where('ProductPerLeverancier.ProductId', $id)
@@ -50,12 +62,16 @@ class MagazijnController extends Controller
             ->get();
 
         // Scenario 02 controle: AantalAanwezig is NULL of 0
-        $geenVoorraad = is_null($magazijnInfo->AantalAanwezig) || $magazijnInfo->AantalAanwezig == 0;
+        $geenVoorraad = is_null($magazijnInfo?->AantalAanwezig) || $magazijnInfo?->AantalAanwezig == 0;
 
-        return view('magazijn.levering', compact('product', 'leveringsInfo', 'geenVoorraad'));
+        // Als er geen voorraad is, stel een PHP refresh header in voor 4 seconden redirect
+        if ($geenVoorraad) {
+            header("refresh:4;url=" . route('magazijn.index'));
+        }
 
-        
+        return view('magazijn.levering', compact('product', 'leverancier', 'leveringsInfo', 'geenVoorraad'));
     }
+
     // Scenario 01 & 02 van User Story 02: Allergeneninformatie
     public function allergenen($id)
     {
@@ -72,6 +88,11 @@ class MagazijnController extends Controller
 
         // Check of er allergenen zijn
         $geenAllergenen = $allergenen->isEmpty();
+
+        // Als er geen allergenen zijn, stel een PHP refresh header in voor 4 seconden redirect
+        if ($geenAllergenen) {
+            header("refresh:4;url=" . route('magazijn.index'));
+        }
 
         return view('magazijn.allergenen', compact('product', 'allergenen', 'geenAllergenen'));
     }
