@@ -35,6 +35,23 @@ Route::middleware(['auth', 'role:admin,magazijnmedewerker'])->group(function () 
     Route::get('/leveranciers/{id}/producten', [LeverancierController::class, 'producten'])
         ->whereNumber('id')
         ->name('leveranciers.producten');
+
+    // Opdracht 2 - User Story 2
+    Route::get(
+        '/leveranciers/{leverancierId}/producten/{productId}/levering',
+        [LeverancierController::class, 'levering']
+    )
+        ->whereNumber('leverancierId')
+        ->whereNumber('productId')
+        ->name('leveranciers.levering');
+
+    Route::post(
+        '/leveranciers/{leverancierId}/producten/{productId}/levering',
+        [LeverancierController::class, 'leveringOpslaan']
+    )
+        ->whereNumber('leverancierId')
+        ->whereNumber('productId')
+        ->name('leveranciers.levering.opslaan');
 });
 
 // Magazijnmedewerker Home

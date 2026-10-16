@@ -66,8 +66,7 @@
 
                             @if ($geenProducten)
                                 <tr>
-                                    <td colspan="5"
-                                        class="px-4 py-6 border text-center font-semibold text-gray-700">
+                                    <td colspan="5" class="px-4 py-6 border text-center font-semibold text-gray-700">
                                         Dit bedrijf heeft tot nu toe geen producten geleverd aan Jamin
                                     </td>
                                 </tr>
@@ -91,11 +90,14 @@
                                         </td>
 
                                         <td class="px-4 py-3 border text-center">
-                                            <span
-                                                class="text-green-600 text-2xl font-black"
+                                            <a href="{{ route('leveranciers.levering', [
+                                                'leverancierId' => $leverancier->LeverancierId,
+                                                'productId' => $product->ProductId,
+                                            ]) }}"
+                                                class="text-green-600 text-2xl font-black hover:text-green-800"
                                                 title="Nieuwe levering">
                                                 +
-                                            </span>
+                                            </a>
                                         </td>
                                     </tr>
                                 @endforeach
@@ -106,13 +108,11 @@
                 </div>
 
                 <div class="mt-6 flex gap-4">
-                    <a href="{{ route('leveranciers.index') }}"
-                        class="px-4 py-2 bg-gray-200 rounded hover:bg-gray-300">
+                    <a href="{{ route('leveranciers.index') }}" class="px-4 py-2 bg-gray-200 rounded hover:bg-gray-300">
                         Terug
                     </a>
 
-                    <a href="{{ route('dashboard') }}"
-                        class="px-4 py-2 bg-gray-200 rounded hover:bg-gray-300">
+                    <a href="{{ route('dashboard') }}" class="px-4 py-2 bg-gray-200 rounded hover:bg-gray-300">
                         Home
                     </a>
                 </div>
