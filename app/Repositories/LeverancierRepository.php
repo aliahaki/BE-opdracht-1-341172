@@ -88,4 +88,82 @@ class LeverancierRepository
 
         return $producten;
     }
+
+    // Gegevens ophalen voor het scherm Levering product
+    public function getProductLeveringDetails(
+        int $leverancierId,
+        int $productId
+    ): ?object {
+        $statement = $this->pdo->prepare(
+            'CALL sp_ProductLeveringDetails(:leverancierId, :productId)'
+        );
+
+        $statement->bindValue(
+            ':leverancierId',
+            $leverancierId,
+            PDO::PARAM_INT
+        );
+
+        $statement->bindValue(
+            ':productId',
+            $productId,
+            PDO::PARAM_INT
+        );
+
+        $statement->execute();
+
+        $gegevens = $statement->fetch();
+
+        $statement->closeCursor();
+
+        return $gegevens ?: null;
+    }
+
+    // Nieuwe levering opslaan via Stored Procedure
+    public function voegNieuweLeveringToe(
+        int $leverancierId,
+        int $productId,
+        int $aantal,
+        string $datumEerstVolgendeLevering
+    ): object {
+        $statement = $this->pdo->prepare(
+            'CALL sp_NieuweLeveringToevoegen(
+                :leverancierId,
+                :productId,
+                :aantal,
+                :datumEerstVolgendeLevering
+            )'
+        );
+
+        $statement->bindValue(
+            ':leverancierId',
+            $leverancierId,
+            PDO::PARAM_INT
+        );
+
+        $statement->bindValue(
+            ':productId',
+            $productId,
+            PDO::PARAM_INT
+        );
+
+        $statement->bindValue(
+            ':aantal',
+            $aantal,
+            PDO::PARAM_INT
+        );
+
+        $statement->bindValue(
+            ':datumEerstVolgendeLevering',
+            $datumEerstVolgendeLevering
+        );
+
+        $statement->execute();
+
+        $resultaat = $statement->fetch();
+
+        $statement->closeCursor();
+
+        return $resultaat;
+    }
 }
